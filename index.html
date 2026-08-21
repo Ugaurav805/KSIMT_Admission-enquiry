@@ -722,6 +722,61 @@ body{background:var(--v6-bg)!important;color:#14213d!important}
 .contact-preference-grid .choice input{accent-color:#1749d1}
 </style>
 
+
+<style id="ksimt-v10-ui-fixes">
+/* V10 — tighter alignment and cleaner program cards */
+.level-grid{
+  align-items:stretch;
+}
+.level-card{
+  min-width:0;
+  min-height:104px!important;
+  padding:12px 10px!important;
+  gap:0!important;
+  text-align:center!important;
+}
+.level-card .level-icon{
+  flex:0 0 auto;
+  margin:0 auto 8px!important;
+}
+.level-card b,
+.level-card small{
+  display:block!important;
+  width:100%!important;
+  text-align:center!important;
+  white-space:normal!important;
+  line-height:1.35!important;
+}
+.level-card b{
+  font-size:10px!important;
+  font-weight:850!important;
+  margin:0!important;
+}
+.level-card small{
+  font-size:8px!important;
+  margin:4px 0 0!important;
+  min-height:22px;
+}
+.program-help{
+  margin-top:5px!important;
+  margin-bottom:0!important;
+  font-size:8.5px!important;
+  color:#8792a5!important;
+}
+.goal-grid{
+  grid-template-columns:repeat(4,1fr)!important;
+}
+@media(max-width:760px){
+  .level-grid{grid-template-columns:repeat(2,1fr)!important;gap:8px!important}
+  .level-card{min-height:92px!important}
+  .goal-grid{grid-template-columns:repeat(2,1fr)!important}
+}
+@media(min-width:761px) and (max-width:1050px){
+  .level-grid{grid-template-columns:repeat(3,1fr)!important}
+  .goal-grid{grid-template-columns:repeat(3,1fr)!important}
+}
+</style>
+
 </head>
 
 <body>
@@ -776,7 +831,7 @@ body{background:var(--v6-bg)!important;color:#14213d!important}
           <div class="step-intro">
             <span>STEP 01</span>
             <h3>Tell us a little about yourself</h3>
-            <p>Share your basic details so our counsellor can understand your profile.</p>
+            <p>Share your basic details so our counsellor can guide you to the most suitable program.</p>
           </div>
 
           <div class="field">
@@ -890,7 +945,7 @@ body{background:var(--v6-bg)!important;color:#14213d!important}
           </div>
         </div>
 
-        <!-- STEP 2 -->
+        <!-- STEP 2: program dropdown is populated from the complete KSIMT course catalogue embedded below. -->
         <div class="step-view" data-step="2">
           <div class="step-intro">
             <span>STEP 02</span>
@@ -922,6 +977,7 @@ body{background:var(--v6-bg)!important;color:#14213d!important}
           <div class="field conditional-field" id="programField">
             <label>Preferred Program <em>*</em></label>
             <select id="program" required><option value="">Select your program</option></select>
+            <div class="field-help program-help">All available KSIMT programs for your selected level and study area are listed here.</div>
           </div>
         </div>
 
@@ -950,11 +1006,10 @@ body{background:var(--v6-bg)!important;color:#14213d!important}
                 <option value="">Select experience</option>
                 <option>No experience</option><option>Less than 1 year</option>
                 <option>1–2 years</option><option>3–5 years</option>
-               <option>6–10 years</option><option>10+ years</option>
+                <option>6–10 years</option><option>10+ years</option>
               </select>
             </div>
           </div>
-
           <div class="question-grid">
             <div class="field">
               <label>When are you planning to enrol? <em>*</em></label>
@@ -965,24 +1020,19 @@ body{background:var(--v6-bg)!important;color:#14213d!important}
                 <option>Just Exploring</option>
               </select>
             </div>
-            <div class="field">
-              <label>Specialisation / Area of Interest <em>*</em></label>
-              <select id="specialisation" required>
-                <option value="">Select your area of interest</option>
-              </select>
-            </div>
           </div>
 
           <div class="field">
-            <label>What are you looking to achieve? <em>*</em></label>
+            <label>What is your main goal? <em>*</em></label>
             <div class="choice-grid goal-grid">
-              <label class="choice"><input type="radio" name="goal" value="Career growth"><span>Career growth</span></label>
+              <label class="choice"><input type="radio" name="goal" value="Career Growth"><span>Career Growth</span></label>
               <label class="choice"><input type="radio" name="goal" value="Promotion"><span>Promotion</span></label>
-              <label class="choice"><input type="radio" name="goal" value="Higher salary"><span>Higher salary</span></label>
-              <label class="choice"><input type="radio" name="goal" value="Career change"><span>Career change</span></label>
-              <label class="choice"><input type="radio" name="goal" value="Skill upgradation"><span>Skill upgradation</span></label>
-              <label class="choice"><input type="radio" name="goal" value="Professional advancement"><span>Professional advancement</span></label>
-              <label class="choice"><input type="radio" name="goal" value="Just Exploring"><span>Just Exploring</span></label>
+              <label class="choice"><input type="radio" name="goal" value="Higher Salary"><span>Higher Salary</span></label>
+              <label class="choice"><input type="radio" name="goal" value="Career Change"><span>Career Change</span></label>
+              <label class="choice"><input type="radio" name="goal" value="Skill Upgradation"><span>Skill Upgradation</span></label>
+              <label class="choice"><input type="radio" name="goal" value="Professional Growth"><span>Professional Growth</span></label>
+              <label class="choice"><input type="radio" name="goal" value="Business Growth"><span>Business Growth</span></label>
+              <label class="choice"><input type="radio" name="goal" value="Other"><span>Other</span></label>
             </div>
           </div>
         </div>
@@ -1084,14 +1134,7 @@ document.addEventListener('DOMContentLoaded', () => {
   programData["Master's"]["Management"] = programData["MBA"]["Management"];
 
 
-  const interestData = {
-    "Engineering":["Design & Development","Operations & Production","Quality & Process Improvement","Project & Construction","Energy & Sustainability","Data, Automation & Robotics","Safety & Compliance","Technical Leadership","Other"],
-    "Management":["Leadership & Management","Marketing & Sales","Finance & Banking","Human Resources & People","Operations & Supply Chain","Digital Business & Technology","Healthcare & Hospitality","Construction & Infrastructure","International Business & Trade","Entrepreneurship","Other"],
-    "IT & Computer":["Software & Applications","Artificial Intelligence & Machine Learning","Data Science & Analytics","Cloud Computing & DevOps","Cybersecurity","Blockchain & Emerging Technology","IT & Technology Management","Other"],
-    "Not sure":["I need help choosing","Career growth","Management & leadership","Technical / IT growth","Other"]
-  };
-
-  const selected = name => [...document.querySelectorAll(`input[name="${name}"]:checked`)].map(el=>el.value)[0] || '';
+    const selected = name => [...document.querySelectorAll(`input[name="${name}"]:checked`)].map(el=>el.value)[0] || '';
   const selectedMany = name => [...document.querySelectorAll(`input[name="${name}"]:checked`)].map(el=>el.value);
 
   function updatePrograms(){
@@ -1099,22 +1142,9 @@ document.addEventListener('DOMContentLoaded', () => {
     program.innerHTML='<option value="">Select your program</option>';
     const list = level === 'MBA' ? (programData[level]?.['Management'] || []) : (programData[level]?.[area] || programData[level]?.['Not sure'] || []);
     Array.from(new Set(list)).forEach(v=>{const o=document.createElement('option');o.value=v;o.textContent=v;program.appendChild(o)});
-    updateSpecialisations();
-  }
-
-  function updateSpecialisations(){
-    const area=selected('area');
-    const spec=document.getElementById('specialisation');
-    spec.innerHTML='<option value="">Select your area of interest</option>';
-    (interestData[area] || interestData['Not sure']).forEach(v=>{const o=document.createElement('option');o.value=v;o.textContent=v;spec.appendChild(o)});
   }
 
   document.querySelectorAll('input[name="level"], input[name="area"]').forEach(el=>el.addEventListener('change',updatePrograms));
-  document.getElementById('program').addEventListener('change',()=>{
-    const spec=document.getElementById('specialisation');
-    if(!spec.value) updateSpecialisations();
-  });
-
   // Contact -> WhatsApp sync
   const sameWhatsapp=document.getElementById('sameWhatsapp');
   const contactCode=document.getElementById('contactCode');
@@ -1166,7 +1196,7 @@ document.addEventListener('DOMContentLoaded', () => {
       if(!program.value){program.classList.add('invalid');ok=false}
     }
     if(n===3){
-      ['profession','experience','timeline','specialisation'].forEach(id=>{const el=document.getElementById(id);if(!el.value){el.classList.add('invalid');ok=false}});
+      ['profession','experience','timeline'].forEach(id=>{const el=document.getElementById(id);if(!el.value){el.classList.add('invalid');ok=false}});
       ok=markGroup('goal','.goal-grid')&&ok;
     }
     if(n===4){
@@ -1212,7 +1242,7 @@ document.addEventListener('DOMContentLoaded', () => {
       qualification:selected('qualification'),level:selected('level'),area:selected('area'),
       program:document.getElementById('program').value,profession:document.getElementById('profession').value,
       experience:document.getElementById('experience').value,goal:selected('goal'),timeline:document.getElementById('timeline').value,
-      specialisation:document.getElementById('specialisation').value,email:email.value.trim(),
+      email:email.value.trim(),
       contactPreferences:selectedMany('contactPreference')
     };
 
@@ -1226,7 +1256,6 @@ Highest Qualification: ${data.qualification}
 Study Level: ${data.level}
 Area: ${data.area}
 Preferred Program: ${data.program}
-Area of Interest: ${data.specialisation}
 Current Profession: ${data.profession}
 Experience: ${data.experience}
 Goal: ${data.goal}
